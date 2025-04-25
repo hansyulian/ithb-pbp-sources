@@ -3,16 +3,6 @@ import { v4 } from "uuid";
 
 const app = express();
 app.use(json());
-app.use((req, res, next) => {
-  console.log(
-    "Request received at",
-    new Date(),
-    req.path,
-    req.params,
-    req.body
-  );
-  next();
-});
 type Task = {
   id: string;
   title: string;
@@ -32,6 +22,7 @@ app.get("/task/:id", (req, res, next) => {
     return;
   }
   res.status(200).json(task);
+  next();
 });
 
 app.get("/task", (req, res, next) => {
@@ -62,6 +53,7 @@ app.post("/task", (req, res, next) => {
   };
   tasks.push(newTask);
   res.status(200).json(newTask);
+  next();
 });
 
 app.put("/task/:id", (req, res, next) => {
@@ -75,6 +67,7 @@ app.put("/task/:id", (req, res, next) => {
   record.title = title;
   record.description = description;
   res.status(200).json(record);
+  next();
 });
 
 app.delete("/task/:id", (req, res, next) => {

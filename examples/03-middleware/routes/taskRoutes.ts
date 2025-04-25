@@ -67,6 +67,7 @@ taskRouter.put("/:id", (req, res, next) => {
   record.title = title;
   record.description = description;
   res.status(200).json(record);
+  next();
 });
 
 taskRouter.delete("/:id", (req, res, next) => {
