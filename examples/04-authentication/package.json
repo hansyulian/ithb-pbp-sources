@@ -1,5 +1,5 @@
 {
-  "name": "middleware",
+  "name": "authentication",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,9 +13,11 @@
   "packageManager": "pnpm@10.6.5",
   "dependencies": {
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
-    "@types/express": "^5.0.1"
+    "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.9"
   }
 }
