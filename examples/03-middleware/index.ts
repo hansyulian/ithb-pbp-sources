@@ -1,5 +1,5 @@
 import express, { json } from "express";
-import { taskRouter } from "./routes/taskRoutes";
+import { taskRouter } from "./routes/taskRouter";
 import { errorHandlerMiddleware } from "./middlewares/errorHandlerMiddleware";
 import { performanceLoggerEndMiddleware } from "./middlewares/performanceLoggerEndMiddleware";
 import { performanceLoggerStartMiddleware } from "./middlewares/performanceLoggerStartMiddleware";

@@ -1,5 +1,5 @@
 import express, { json } from "express";
-import { taskRouter } from "./routes/taskRoutes";
+import { taskRouter } from "./routes/taskRouter";
 
 const app = express();
 app.use(json());
