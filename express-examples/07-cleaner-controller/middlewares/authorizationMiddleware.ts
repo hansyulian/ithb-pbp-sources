@@ -36,7 +36,7 @@ export const authorizationMiddleware = middlewareWrapper(
       res.locals.user = user;
       // next();
     } catch (err) {
-      res.sendStatus(401); // Unauthorized
+      // res.sendStatus(401); // Unauthorized
       // return;
 
       res.locals.errorCode = 401;
