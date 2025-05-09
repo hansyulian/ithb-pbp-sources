@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { invalidHookUsage, useValidHookUsage } from "./functionHookUsage";
 
 type Post = {
   id: string;
@@ -12,20 +13,44 @@ type Post = {
 function App() {
   const [records, setRecords] = useState<Post[]>();
   const [selectedRecord, setSelectedRecord] = useState<Post>();
+  const [ready, setReady] = useState(false);
 
-  const reloadData = async () => {
+  const reloadData = useCallback(async () => {
+    console.log("reload data called");
+    if (!ready) return;
+    console.log("reloading data");
     // const response = await fetch("http://ithb-pbp.hansyulian.online/post");
     const response = await fetch("http://localhost:5173/api/post");
     const data = await response.json();
     setRecords(data.records as Post[]);
-  };
+  }, [ready]);
+
+  // bugged, not recalculating thus not triggering any depedencies recalculation
+  // const reloadData = useCallback(async () => {
+  //   console.log("reload data called");
+  //   if (!ready) return;
+  //   console.log("reloading data");
+  //   // const response = await fetch("http://ithb-pbp.hansyulian.online/post");
+  //   const response = await fetch("http://localhost:5173/api/post");
+  //   const data = await response.json();
+  //   setRecords(data.records as Post[]);
+  // },[]);
+
+  // useEffect(callback: ()=>T, dependencyArray: any[]);
+  // useMemo(callback: ()=>T, dependencyArray: any[]);
+  // useCallback(callback: ()=>T, dependencyArray: any[]);
+  useEffect(() => {
+    console.log("use effect reload data");
+    reloadData();
+  }, [reloadData]);
 
   useEffect(() => {
-    reloadData();
+    setTimeout(() => {
+      setReady(true);
+    }, 1000);
   }, []);
+  console.log(ready, records);
 
-  // rules of hooks
-  // exhaustive dependency
   const someRecords = useMemo(() => {
     if (!records) {
       return [];
@@ -33,8 +58,12 @@ function App() {
     return records.slice(0, 10);
   }, [records]);
 
+  // this is the condition return
   if (!records) return <div>Loading</div>;
-
+  // just fine
+  // invalidHookUsage();
+  // invalid use of hook
+  // useValidHookUsage();
   // rules of hooks
   // const [selectedRecord, setSelectedRecord] = useState<Post>();
 
